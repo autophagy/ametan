@@ -1,2 +1,0 @@
-# ametan
-Ametan :: Scrum Cards
