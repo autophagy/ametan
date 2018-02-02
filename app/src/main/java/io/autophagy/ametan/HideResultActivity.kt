@@ -1,33 +1,17 @@
 package io.autophagy.ametan
 
-import android.content.Intent
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import kotlinx.android.synthetic.main.activity_main.*
+import android.support.v4.app.NavUtils
 import android.support.v4.content.ContextCompat
-import android.os.Build
+import android.view.MenuItem
+import kotlinx.android.synthetic.main.activity_hide_result.*
 
 
-class MainActivity : AppCompatActivity() {
-
-    val map = arrayListOf(Pair("0", "náht"),
-                          Pair("½", "healf"),
-                          Pair("1", "an"),
-                          Pair("2", "twegen"),
-                          Pair("3", "þreo"),
-                          Pair("5", "fif"),
-                          Pair("8", "eahta"),
-                          Pair("13", "þreotiene"),
-                          Pair("20", "twentig"),
-                          Pair("40", "feowertig"),
-                          Pair("100", "hundteontig"),
-                          Pair("∞", "endeleás"),
-                          Pair("?", "fregen"))
-
-    var mIndex = 0
-
+class HideResultActivity : AppCompatActivity() {
     private val mHideHandler = Handler()
     private val mHidePart2Runnable = Runnable {
         // Delayed removal of status and navigation bar
@@ -49,12 +33,16 @@ class MainActivity : AppCompatActivity() {
     }
     private var mVisible: Boolean = false
     private val mHideRunnable = Runnable { hide() }
-
-    private val mSetValue = { newIndex:Int ->
-        mIndex = newIndex.coerceIn(0..map.size-1)
-        val v = map.get(mIndex)
-        numDigitText.text = v.first
-        numWordText.text = "// ${v.second} //"
+    /**
+     * Touch listener to use for in-layout UI controls to delay hiding the
+     * system UI. This is to prevent the jarring behavior of controls going away
+     * while interacting with activity UI.
+     */
+    private val mDelayHideTouchListener = View.OnTouchListener { _, _ ->
+        if (AUTO_HIDE) {
+            delayedHide(AUTO_HIDE_DELAY_MILLIS)
+        }
+        false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             window.statusBarColor = ContextCompat.getColor(this, android.R.color.transparent)
         }
 
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_hide_result)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         mVisible = true
@@ -73,15 +61,11 @@ class MainActivity : AppCompatActivity() {
         // Set up the user interaction to manually show or hide the system UI.
         fullscreen_content.setOnClickListener { toggle() }
 
-        incrementScore.setOnClickListener { mSetValue(mIndex + 1) }
-        decrementScore.setOnClickListener { mSetValue(mIndex - 1) }
         autophagyButton.setOnClickListener {
-            val intent = Intent(this, HideResultActivity::class.java)
-            startActivity(intent)
+            finish()
             overridePendingTransition(R.anim.abc_popup_enter, R.anim.abc_popup_exit)
         }
 
-        mSetValue(mIndex)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -91,6 +75,16 @@ class MainActivity : AppCompatActivity() {
         // created, to briefly hint to the user that UI controls
         // are available.
         delayedHide(100)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if (id == android.R.id.home) {
+            // This ID represents the Home or Up button.
+            NavUtils.navigateUpFromSameTask(this)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun toggle() {
