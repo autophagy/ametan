@@ -12,19 +12,19 @@ import android.os.Build
 
 class MainActivity : AppCompatActivity() {
 
-    val map = arrayListOf(Pair("0", "náht"),
-                          Pair("½", "healf"),
-                          Pair("1", "an"),
-                          Pair("2", "twegen"),
-                          Pair("3", "þreo"),
-                          Pair("5", "fif"),
-                          Pair("8", "eahta"),
-                          Pair("13", "þreotiene"),
-                          Pair("20", "twentig"),
-                          Pair("40", "feowertig"),
-                          Pair("100", "hundteontig"),
-                          Pair("∞", "endeleás"),
-                          Pair("?", "fregen"))
+    val mScrumScores = arrayListOf(Pair("0", "náht"),
+                                   Pair("½", "healf"),
+                                   Pair("1", "an"),
+                                   Pair("2", "twegen"),
+                                   Pair("3", "þreo"),
+                                   Pair("5", "fif"),
+                                   Pair("8", "eahta"),
+                                   Pair("13", "þreotiene"),
+                                   Pair("20", "twentig"),
+                                   Pair("40", "feowertig"),
+                                   Pair("100", "hundteontig"),
+                                   Pair("∞", "endeleás"),
+                                   Pair("?", "fregen"))
 
     var mIndex = 0
 
@@ -50,9 +50,13 @@ class MainActivity : AppCompatActivity() {
     private var mVisible: Boolean = false
     private val mHideRunnable = Runnable { hide() }
 
+    /**
+     * Sets the currently selected scrum score index.
+     * Ensures that the incrementing/decrementing doesnt exceed the bounds of the scrum scores array.
+     */
     private val mSetValue = { newIndex:Int ->
-        mIndex = newIndex.coerceIn(0..map.size-1)
-        val v = map.get(mIndex)
+        mIndex = newIndex.coerceIn(0..mScrumScores.size-1)
+        val v = mScrumScores.get(mIndex)
         numDigitText.text = v.first
         numWordText.text = "// ${v.second} //"
     }
