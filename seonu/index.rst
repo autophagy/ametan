@@ -19,4 +19,10 @@ Contents
 
    usage/index
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Installation
+
+   installation/index
+
 .. _planning poker: https://en.wikipedia.org/wiki/Planning_poker
