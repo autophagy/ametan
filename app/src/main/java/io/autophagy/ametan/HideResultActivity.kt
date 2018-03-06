@@ -8,6 +8,7 @@ import android.view.View
 import android.support.v4.app.NavUtils
 import android.support.v4.content.ContextCompat
 import android.view.MenuItem
+import android.view.WindowManager
 import kotlinx.android.synthetic.main.activity_hide_result.*
 
 
@@ -57,6 +58,8 @@ class HideResultActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         mVisible = true
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         // Set up the user interaction to manually show or hide the system UI.
         fullscreen_content.setOnClickListener { toggle() }
