@@ -1,11 +1,11 @@
 Ametan
 ======
 
-.. image:: http://scieldas.autophagy.io/rtd/ametan.png
+.. image:: http://scieldas.autophagy.io/rtd/build/ametan.png
     :target: http://ametan.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-.. image:: http://scieldas.autophagy.io/licenses/MIT.png
+.. image:: http://scieldas.autophagy.io/misc/licenses/mit.png
    :target: LICENSE
    :alt: MIT License
 
